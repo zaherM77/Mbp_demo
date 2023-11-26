@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'CategoryPage.dart';
 import 'AddCategory.dart';
+import 'Data.dart';
 
 class AppDrawer extends StatelessWidget {
   final List<String> categories;
@@ -22,6 +23,7 @@ class AppDrawer extends StatelessWidget {
                   builder: (context) => AddCategoryPage(addCategory: addCategory),
                 ),
               );
+
             },
           ),
           for (var category in categories)

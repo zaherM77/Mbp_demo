@@ -1,5 +1,6 @@
+import 'package:a_z_2dolapp/Category.dart';
 import 'package:flutter/material.dart';
-
+import 'Data.dart';
 class AddCategoryPage extends StatefulWidget {
   final Function(String) addCategory;
 
@@ -39,6 +40,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                 String newCategory = _categoryController.text;
                 widget.addCategory(newCategory); // Use the callback to add the new category
                 Navigator.pop(context);
+                categories.add(Category(newCategory));
               },
               child: Text('Add Category'),
             ),

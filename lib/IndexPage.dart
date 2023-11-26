@@ -1,3 +1,4 @@
+import 'package:a_z_2dolapp/Data.dart';
 import 'package:flutter/material.dart';
 
 import 'AddCategory.dart';
@@ -35,7 +36,7 @@ class _IndexPageState extends State<IndexPage> {
         child: ListView(
           children: [
             ListTile(
-              title: Text('Series'),
+              title: Text(categories[0].name),
               onTap: () {
                 Navigator.push(
                   context,
@@ -46,7 +47,7 @@ class _IndexPageState extends State<IndexPage> {
               },
             ),
             ListTile(
-              title: Text('Places to Visit'),
+              title: Text(categories[1].name),
               onTap: () {
                 Navigator.push(
                   context,
