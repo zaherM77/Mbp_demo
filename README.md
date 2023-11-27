@@ -1,6 +1,6 @@
 <<<<<<< HEAD
 # Mbp_demo
- The best simple mobile app ever
+Through  this Todo list app you are able to add multicolored containers(action,mystery...) to an existing  category(Series), to add/remove tasks(/movies or any other to-do)to/from a container and to add a category
 =======
 # a_z_2dolapp
 
