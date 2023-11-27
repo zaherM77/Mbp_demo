@@ -13,41 +13,74 @@ class CategoryPage extends StatefulWidget {
 class _CategoryPageState extends State<CategoryPage> {
   List<Container> containerList = [];
   List<Todo> todoList = [];
+  Color selectedColor = Colors.blue; // Default color
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.category),
+        backgroundColor: selectedColor,
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    _addContainer();
-                  },
-                  icon: Icon(Icons.add),
-                  label: Text(''),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black45,
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    shape:  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildColorChoice(Colors.red),
+                  _buildColorChoice(Colors.blue),
+                  _buildColorChoice(Colors.yellow),
+                  _buildColorChoice(Colors.pink),
+                  _buildColorChoice(Colors.green),
+                ],
+              ),
             ),
             SizedBox(height: 16.0),
             ...containerList,
+            ElevatedButton.icon(
+              onPressed: () {
+                _addContainer();
+              },
+              icon: Icon(Icons.add),
+              label: Text('Add Container'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                onPrimary: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildColorChoice(Color color) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedColor = color;
+        });
+      },
+      child: Container(
+        width: 40,
+        height: 40,
+        margin: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: selectedColor == color
+            ? Icon(Icons.check, color: Colors.white)
+            : Container(),
       ),
     );
   }
@@ -60,13 +93,17 @@ class _CategoryPageState extends State<CategoryPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Add Todo List Container'),
-          content: TextField(
-            controller: todoTextController,
-            decoration: InputDecoration(
-              hintText: 'Enter a title ',
-              fillColor:Colors.black45,
-            ),
-            cursorColor: Colors.black45,
+          content: Column(
+            children: [
+              TextField(
+                controller: todoTextController,
+                decoration: InputDecoration(
+                  hintText: 'Enter a title',
+                  fillColor: Colors.black45,
+                ),
+                cursorColor: Colors.black45,
+              ),
+            ],
           ),
           actions: <Widget>[
             TextButton(
@@ -81,7 +118,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-        ),
+            ),
             TextButton(
               onPressed: () {
                 String todoTitle = todoTextController.text.trim();
@@ -91,6 +128,7 @@ class _CategoryPageState extends State<CategoryPage> {
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 20.0),
                         decoration: BoxDecoration(
+                          color: selectedColor,
                           border: Border.all(color: Colors.black12),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -118,21 +156,24 @@ class _CategoryPageState extends State<CategoryPage> {
                   Navigator.of(context).pop();
                 }
               },
-              child: Text('Add',),
+              child: Text(
+                'Add',
+                style: TextStyle(fontSize: 16.0),
+              ),
               style: TextButton.styleFrom(
-              foregroundColor: Colors.black,
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-             ),
+                foregroundColor: Colors.black,
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
             ),
-
-        ),
-      ],
+          ],
         );
       },
     );
-  }}
+  }
+}
 
 class TodoListWidget extends StatefulWidget {
   @override
@@ -155,7 +196,7 @@ class _TodoListWidgetState extends State<TodoListWidget> {
                 controller: textEditingController,
                 decoration: InputDecoration(
                   hintText: 'Enter Text',
-                    fillColor:Colors.black45,
+                  fillColor: Colors.black45,
                 ),
                 cursorColor: Colors.black45,
               ),
@@ -173,43 +214,44 @@ class _TodoListWidgetState extends State<TodoListWidget> {
               icon: Icon(Icons.add),
               label: Text(''),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black45,
-                foregroundColor: Colors.white,
+                primary: Colors.black45,
+                onPrimary: Colors.white,
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                shape:  RoundedRectangleBorder(
+                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-
             ),
           ],
         ),
         SizedBox(height: 20),
         ListView.builder(
-            shrinkWrap: true,
-            itemCount: todoList.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(todoList[index].text,
-                  style: TextStyle(
-                    decoration: todoList[index].isDone
-                        ? TextDecoration.lineThrough: TextDecoration.none,
-                  ),
+          shrinkWrap: true,
+          itemCount: todoList.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(
+                todoList[index].text,
+                style: TextStyle(
+                  decoration: todoList[index].isDone
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
                 ),
-
-                leading: Checkbox(
-                  value: todoList[index].isDone,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      todoList[index].isDone = value ?? false;
-                    });
-                  },
-                  activeColor: Colors.black45,
-                ),
-              );
-            },
-          ),
+              ),
+              leading: Checkbox(
+                value: todoList[index].isDone,
+                onChanged: (bool? value) {
+                  setState(() {
+                    todoList[index].isDone = value ?? false;
+                  });
+                },
+                activeColor: Colors.black45,
+              ),
+            );
+          },
+        ),
       ],
     );
   }
 }
+
