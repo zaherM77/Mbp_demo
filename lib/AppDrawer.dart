@@ -12,33 +12,66 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        children: [
-          ListTile(
-            title: Text('Add New Category'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AddCategoryPage(addCategory: addCategory),
+      child: Container(
+        color: Colors.blue, // Change the background color as desired
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue, // Change the header background color
+              ),
+              child: Center(
+                child: Text(
+                  'My App',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24.0,
+                  ),
                 ),
-              );
-
-            },
-          ),
-          for (var category in categories)
+              ),
+            ),
             ListTile(
-              title: Text(category),
+              title: Text(
+                'Add New Category',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CategoryPage(category: category),
+                    builder: (context) => AddCategoryPage(addCategory: addCategory),
                   ),
                 );
               },
             ),
-        ],
+            Divider(
+              color: Colors.white, // Add a divider line
+            ),
+            for (var category in categories)
+              ListTile(
+                title: Text(
+                  category,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CategoryPage(category: category),
+                    ),
+                  );
+                },
+              ),
+          ],
+        ),
       ),
     );
   }

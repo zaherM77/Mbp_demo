@@ -24,25 +24,28 @@ class _CategoryPageState extends State<CategoryPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    _addContainer();
-                  },
-                  icon: Icon(Icons.add),
-                  label: Text(''),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.black45,
-                    onPrimary: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    shape:  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      _addContainer();
+                    },
+                    icon: Icon(Icons.add),
+                    label: Text('Add New Container'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue,
+                      onPrimary: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             SizedBox(height: 16.0),
             ...containerList,
@@ -64,7 +67,7 @@ class _CategoryPageState extends State<CategoryPage> {
             controller: todoTextController,
             decoration: InputDecoration(
               hintText: 'Enter a title ',
-              fillColor:Colors.black45,
+              fillColor: Colors.black45,
             ),
             cursorColor: Colors.black45,
           ),
@@ -81,7 +84,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-        ),
+            ),
             TextButton(
               onPressed: () {
                 String todoTitle = todoTextController.text.trim();
@@ -118,21 +121,24 @@ class _CategoryPageState extends State<CategoryPage> {
                   Navigator.of(context).pop();
                 }
               },
-              child: Text('Add',),
+              child: Text(
+                'Add',
+                style: TextStyle(fontSize: 16.0),
+              ),
               style: TextButton.styleFrom(
-              foregroundColor: Colors.black,
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-             ),
+                foregroundColor: Colors.black,
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
             ),
-
-        ),
-      ],
+          ],
         );
       },
     );
-  }}
+  }
+}
 
 class TodoListWidget extends StatefulWidget {
   @override
@@ -155,7 +161,7 @@ class _TodoListWidgetState extends State<TodoListWidget> {
                 controller: textEditingController,
                 decoration: InputDecoration(
                   hintText: 'Enter Text',
-                    fillColor:Colors.black45,
+                  fillColor: Colors.black45,
                 ),
                 cursorColor: Colors.black45,
               ),
@@ -175,40 +181,40 @@ class _TodoListWidgetState extends State<TodoListWidget> {
               style: ElevatedButton.styleFrom(
                 primary: Colors.black45,
                 onPrimary: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                shape:  RoundedRectangleBorder(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-
             ),
           ],
         ),
         SizedBox(height: 20),
         ListView.builder(
-            shrinkWrap: true,
-            itemCount: todoList.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(todoList[index].text,
-                  style: TextStyle(
-                    decoration: todoList[index].isDone
-                        ? TextDecoration.lineThrough: TextDecoration.none,
-                  ),
+          shrinkWrap: true,
+          itemCount: todoList.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(
+                todoList[index].text,
+                style: TextStyle(
+                  decoration: todoList[index].isDone
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
                 ),
-
-                leading: Checkbox(
-                  value: todoList[index].isDone,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      todoList[index].isDone = value ?? false;
-                    });
-                  },
-                  activeColor: Colors.black45,
-                ),
-              );
-            },
-          ),
+              ),
+              leading: Checkbox(
+                value: todoList[index].isDone,
+                onChanged: (bool? value) {
+                  setState(() {
+                    todoList[index].isDone = value ?? false;
+                  });
+                },
+                activeColor: Colors.black45,
+              ),
+            );
+          },
+        ),
       ],
     );
   }
