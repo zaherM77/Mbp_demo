@@ -48,8 +48,8 @@ class _CategoryPageState extends State<CategoryPage> {
               icon: Icon(Icons.add),
               label: Text('Add Container'),
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                onPrimary: Colors.white,
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -214,8 +214,8 @@ class _TodoListWidgetState extends State<TodoListWidget> {
               icon: Icon(Icons.add),
               label: Text(''),
               style: ElevatedButton.styleFrom(
-                primary: Colors.black45,
-                onPrimary: Colors.white,
+                backgroundColor: Colors.black45,
+                foregroundColor: Colors.white,
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
@@ -229,20 +229,37 @@ class _TodoListWidgetState extends State<TodoListWidget> {
           shrinkWrap: true,
           itemCount: todoList.length,
           itemBuilder: (context, index) {
+            Todo todo = todoList[index];
+
             return ListTile(
-              title: Text(
-                todoList[index].text,
-                style: TextStyle(
-                  decoration: todoList[index].isDone
-                      ? TextDecoration.lineThrough
-                      : TextDecoration.none,
-                ),
+              title: Row(
+                children: [
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(
+                        text: todo.text,
+                        style: TextStyle(
+                          color: Colors.black,
+                          decoration: todo.isDone ? TextDecoration.lineThrough : TextDecoration.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: () {
+                      setState(() {
+                        todoList.removeAt(index);
+                      });
+                    },
+                  ),
+                ],
               ),
               leading: Checkbox(
-                value: todoList[index].isDone,
+                value: todo.isDone,
                 onChanged: (bool? value) {
                   setState(() {
-                    todoList[index].isDone = value ?? false;
+                    todo.isDone = value ?? false;
                   });
                 },
                 activeColor: Colors.black45,
